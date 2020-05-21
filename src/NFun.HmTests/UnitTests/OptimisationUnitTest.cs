@@ -1,11 +1,12 @@
-using NFun.HindleyMilner.Tyso;
+using NFun.TypeInference.Solving;
 using NUnit.Framework;
 
-namespace NFun.HmTests
+namespace NFun.HmTests.UnitTests
 {
     [TestFixture]
     public class OptimisationUnitTest
     {
+        
         [Test]
         public void OptimizeLcaWith2Generics_AllNodesEqualToSingleGeneric()
         {
@@ -13,7 +14,7 @@ namespace NFun.HmTests
             var genericB = new SolvingNode();
             var lca = SolvingNode.CreateLca(genericA,genericB);
 
-            Assert.IsTrue(HmNodeSolver.Optimize(new[] {genericA, genericB, lca}));
+            Assert.IsTrue(TiSolver.Optimize(new[] {genericA, genericB, lca}));
             
             var actualGenericA = genericA.GetActualNode().Behavior;
             var actualGenericB = genericB.GetActualNode().Behavior;
@@ -29,12 +30,12 @@ namespace NFun.HmTests
         {
             var Ta = new SolvingNode();
             var Tb = new SolvingNode();
-            var arrayOfTa = SolvingNode.CreateStrict(FType.ArrayOf(Ta));
-            var arrayOfTb = SolvingNode.CreateStrict(FType.ArrayOf(Tb));
+            var arrayOfTa = SolvingNode.CreateStrict(TiType.ArrayOf(Ta));
+            var arrayOfTb = SolvingNode.CreateStrict(TiType.ArrayOf(Tb));
             
             var lca = SolvingNode.CreateLca(arrayOfTa,arrayOfTb);
 
-            Assert.IsTrue(HmNodeSolver.Optimize(new[] {arrayOfTa, arrayOfTb, lca}));
+            Assert.IsTrue(TiSolver.Optimize(new[] {arrayOfTa, arrayOfTb, lca}));
             /*
             var actualGenericA = Ta.GetActualNode().Behavior as StrictNodeBehaviour;
             var actualGenericB = Tb.GetActualNode().Behavior as StrictNodeBehaviour;
@@ -66,7 +67,7 @@ namespace NFun.HmTests
 
             var lca = SolvingNode.CreateLca(refToA,refToB);
 
-            Assert.IsTrue(HmNodeSolver.Optimize(new[] {refToA, refToB, lca}));
+            Assert.IsTrue(TiSolver.Optimize(new[] {refToA, refToB, lca}));
             
             var actualGenericA = refToA.GetActualNode().Behavior;
             var actualGenericB = refToB.GetActualNode().Behavior;
@@ -88,7 +89,7 @@ namespace NFun.HmTests
             var lca = SolvingNode.CreateLca(refToA,refToB);
             var refTolca = SolvingNode.CreateRefTo(lca);
             
-            Assert.IsTrue(HmNodeSolver.Optimize(new[] {refToA, refToB, refTolca}));
+            Assert.IsTrue(TiSolver.Optimize(new[] {refToA, refToB, refTolca}));
             
             var actualGenericA = refToA.GetActualNode().Behavior;
             var actualGenericB = refToB.GetActualNode().Behavior;
